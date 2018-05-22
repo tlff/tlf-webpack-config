@@ -1,0 +1,14 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+p{
+    color: red;
+}
+#container{
+    height: 100px;
+    color: green;
+    width: 100px;
+    background-color: red;
+    border: 5px solid rgb(226, 57, 161);
+}
