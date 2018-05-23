@@ -1,3 +1,3 @@
 export function c(){
-    return "vvvv232as1";
+    return "vvvv";
 }   
