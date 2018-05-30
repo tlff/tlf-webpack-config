@@ -3,20 +3,43 @@ const program = require("commander");
 const fs = require('fs');
 const PATH = require("path");
 function run(name) {
-    copy2(PATH.resolve(__dirname, "../"), name);
+    copy(PATH.resolve(__dirname, "../"), name);
 }
-let arr=[
+const arr=[
     "webpack.common.js",
     "webpack.dev.js",
     "webpack.prod.js",
     "src",
-    ".gitignore"
+    ".gitignore",
+    "package.json"
 ]
-function copy2(src,dst){
+function mkdirs(dirpath, mode, callback) {
+    fs.exists(dirpath, function (exists) {
+        if (exists) {
+            callback(dirpath);
+        } else {
+            //尝试创建父目录，然后再创建当前目录
+            mkdirs(PATH.dirname(dirpath), mode, function () {
+                console.log(PATH.dirname(dirpath));
+                fs.mkdir(dirpath, mode, callback);
+            });
+        }
+    });
+};
+// let i=0;
+// let con=true;
+// function show(length,bo){
+//     con=con&&bo;
+//     i++;  
+//     if(length==i){
+//         console.log("初始化成功");
+//     } 
+// }
+function copy(src,dst){
+    dst=PATH.resolve(dst);
     fs.exists(dst,function(exist){
         if(!exist){
-            fs.mkdir(dst,function(){
-                
+            mkdirs(dst,"0777",function(){
                 arr.map(function(index){
                     let _src = PATH.resolve(src, index);
                     let _dst = PATH.resolve(dst, index);
@@ -31,13 +54,15 @@ function copy2(src,dst){
                         }
                     })
                 })
+                console.log("初始化成功");
             })
+        }else{
+            console.log("目录已存在");
+            return;
         }
     })    
 }
 function copyFile(_src,_dst){
-    // console.log(_src);
-    // console.log(_dst);
     fs.readFile(_src, 'utf-8', function (err, data) {
         if (err) {
             throw err;
