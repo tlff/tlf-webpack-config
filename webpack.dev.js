@@ -7,7 +7,8 @@ const common = require('./webpack.common.js');
 module.exports = merge.smart(common, {
 	devServer: {
 		contentBase: './dist',
-		hot: true
+		hot: true,
+		watchContentBase: true
 	},
 	module: {
 		rules: [
@@ -21,7 +22,7 @@ module.exports = merge.smart(common, {
 				}
 			},
 			{
-				test: /\.(less|css)$/,
+				test: /\.(scss|less|css)$/,
 
 				use: [
 					{
@@ -36,6 +37,13 @@ module.exports = merge.smart(common, {
 					},
 					{
 						loader: 'less-loader',
+
+						options: {
+							sourceMap: true
+						}
+					}, ,
+					{
+						loader: 'sass-loader',
 
 						options: {
 							sourceMap: true

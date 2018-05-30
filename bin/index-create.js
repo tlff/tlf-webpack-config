@@ -3,9 +3,54 @@ const program = require("commander");
 const fs = require('fs');
 const PATH = require("path");
 function run(name) {
-    copy(PATH.resolve(__dirname, "../public"), name);
+    copy2(PATH.resolve(__dirname, "../"), name);
 }
-function copy(src, dst) {
+let arr=[
+    "webpack.common.js",
+    "webpack.dev.js",
+    "webpack.prod.js",
+    "src",
+    ".gitignore"
+]
+function copy2(src,dst){
+    fs.exists(dst,function(exist){
+        if(!exist){
+            fs.mkdir(dst,function(){
+                
+                arr.map(function(index){
+                    let _src = PATH.resolve(src, index);
+                    let _dst = PATH.resolve(dst, index);
+                    fs.stat(_src,function(err,stat){
+                        if(err){
+                            throw err;
+                        }
+                        if(stat.isFile()){
+                            copyFile(_src, _dst);
+                        }else{
+                            copyDir(_src, _dst);
+                        }
+                    })
+                })
+            })
+        }
+    })    
+}
+function copyFile(_src,_dst){
+    // console.log(_src);
+    // console.log(_dst);
+    fs.readFile(_src, 'utf-8', function (err, data) {
+        if (err) {
+            throw err;
+        }
+
+        fs.writeFile(_dst, data, 'utf-8', function (err) {
+            if (err) {
+                throw err;
+            }
+        });
+    })   
+}
+function copyDir(src, dst) {
     fs.exists(dst, function (exist) {
         if (!exist) {
             fs.mkdir(dst, function () {
@@ -20,21 +65,11 @@ function copy(src, dst) {
                             if (err) {
                                 throw err;
                             }
+                            
                             if (stat.isFile()) {
-                                fs.readFile(_src, 'utf-8', function (err, data) {
-                                    if (err) {
-                                        throw err;
-                                    }
-
-                                    fs.writeFile(_dst, data, 'utf-8', function (err) {
-                                        if (err) {
-                                            throw err;
-                                        }
-                                        // console.log("%s 写入完毕", _dst);
-                                    });
-                                })
+                                copyFile(_src, _dst);
                             } else {
-                                copy(_src, _dst);
+                                copyDir(_src, _dst);
                             }
                         });
                     })
