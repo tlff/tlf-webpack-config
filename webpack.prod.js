@@ -2,7 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const webpack = require('webpack');
 const path = require('path');
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
@@ -29,7 +29,7 @@ module.exports =merge.smart(common, {
 						options: {
 							sourceMap: true
 						}
-					}, ,
+					},
 					{
 						loader: 'sass-loader',
 
@@ -56,7 +56,8 @@ module.exports =merge.smart(common, {
 		}),
 		new webpack.optimize.RuntimeChunkPlugin({
 			name:'manifest'
-		})
+		}),
+		new BundleAnalyzerPlugin()
 	],
 
 	

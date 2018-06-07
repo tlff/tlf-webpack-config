@@ -34,44 +34,28 @@ module.exports = {
                 options: {
                     name: "./font/[name].[hash].[ext]"
                 }
-            },
-            {
-                test: /\.(less|css)$/,
-
-                use: [
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true
-                        },
-
-                    },
-                    {
-                        loader: 'less-loader',
-
-                        options: {
-                            sourceMap: true
-                        }
-                    }
-                ]
             }
         ]
     },
 
     plugins: [
         new HtmlWebpackPlugin({
-            filename: "index.html",
-            template: './src/index.html',
+            filename: "./view/index.html",
+            template: './src/view/index.html',
             hash: false,
             inject: true,
             chunksSortMode: 'auto',
         }),
         new CleanWebpackPlugin('./dist'),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
     ],
     entry: {
-        index: './src/index.js',
+        index: './src/js/index.js',
     },
-
+    
     output: {
         filename: './js/[name].[chunkhash].js',
         path: path.resolve(__dirname, 'dist')

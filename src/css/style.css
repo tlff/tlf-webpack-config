@@ -11,7 +11,7 @@ p{
     width: 100px;
     background-color: red;
     border: 5px solid rgb(226, 57, 161);
-    background-image: url(./1.jpg);
+    background-image: url(../images/1.jpg);
     background-size:100% 100%;  
     /* background-repeat:no-repeat; */
 }

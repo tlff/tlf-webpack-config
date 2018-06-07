@@ -9,8 +9,8 @@ const arr=[
     "webpack.common.js",
     "webpack.dev.js",
     "webpack.prod.js",
+    "webpack.watch.js",
     "src",
-    ".gitignore",
     "package.json"
 ]
 function mkdirs(dirpath, mode, callback) {

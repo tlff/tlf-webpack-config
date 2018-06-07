@@ -1,12 +1,12 @@
 {
   "name": "tlf-webpack-config",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "自己配置的webpack脚手架",
-  "main": "./src/index.js",
+  "main": "./src/js/index.js",
   "scripts": {
     "build": "webpack  --config webpack.prod.js",
     "start": "webpack-dev-server --inline --config webpack.dev.js",
-    "watch": "webpack --config webpack.dev.js --watch"
+    "watch": "webpack --config webpack.watch.js --watch"
   },
   "author": "tlf",
   "license": "ISC",
@@ -25,16 +25,16 @@
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "webpack": "^4.8.3",
-    "webpack-bundle-analyzer": "^2.13.0",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.1.2",
     "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.1.2",
-    "node-sass": "^4.9.0",
-    "sass-loader": "^7.0.1"
+    "webpack-merge": "^4.1.2"
   },
   "dependencies": {
     "commander": "^2.15.1",

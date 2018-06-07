@@ -8,7 +8,15 @@ module.exports = merge.smart(common, {
 	devServer: {
 		contentBase: './dist',
 		hot: true,
-		watchContentBase: true
+		watchContentBase: true,
+		// proxy: {
+		// 	'*': {
+		// 		target: 'http://localhost:80/ppt/web',
+		// 		changeOrigin: true,
+		// 		secure: false,
+		// 		pathRewrite: { "^/view": "" }
+		// 	}
+		// }
 	},
 	module: {
 		rules: [
@@ -41,7 +49,7 @@ module.exports = merge.smart(common, {
 						options: {
 							sourceMap: true
 						}
-					}, ,
+					},
 					{
 						loader: 'sass-loader',
 
