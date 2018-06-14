@@ -9,6 +9,7 @@ module.exports = merge.smart(common, {
 		contentBase: './dist',
 		hot: true,
 		watchContentBase: true,
+		openPage: "./view/index.html"
 		// proxy: {
 		// 	'*': {
 		// 		target: 'http://localhost:80/ppt/web',
@@ -26,7 +27,7 @@ module.exports = merge.smart(common, {
 				loader: 'babel-loader',
 
 				options: {
-					presets: ['env', 'react']
+					presets: ['env']
 				}
 			},
 			{

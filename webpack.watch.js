@@ -13,7 +13,7 @@ module.exports = merge.smart(common, {
                 loader: 'babel-loader',
 
                 options: {
-                    presets: ['env', 'react']
+                    presets: ['env']
                 }
             },
             {

@@ -2,6 +2,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const dir="dist";
+const root="/webpackconfig/";
+const dist = path.resolve(__dirname, dir);
+const publicPath = path.join("/webpackconfig", dir);
 module.exports = {
     module: {
         rules: [
@@ -11,7 +15,7 @@ module.exports = {
                 loader: 'babel-loader',
 
                 options: {
-                    presets: ['env', 'react'],
+                    presets: ['env'],
                 }
             },
             {
@@ -20,7 +24,9 @@ module.exports = {
                     loader: 'url-loader',
                     options: {
                         limit: 8192,
-                        name: './images/[hash].[ext]'
+                        name: '[name].[hash].[ext]',
+                        outputPath:"images/",
+                        publicPath: "../images"
                     }
                 }]
             },
@@ -28,7 +34,8 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 loader: 'file-loader',
                 options: {
-                    name: "./font/[name].[hash].[ext]"
+                    name: "[name].[hash].[ext]",
+                    outputPath: "font/"
                 }
             }
         ]
@@ -42,7 +49,7 @@ module.exports = {
             inject: true,
             chunksSortMode: 'auto',
         }),
-        new CleanWebpackPlugin('./dist'),
+        new CleanWebpackPlugin(dist),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
@@ -53,7 +60,8 @@ module.exports = {
     },
     
     output: {
-        filename: './js/[name].[chunkhash].js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'js/[name].[chunkhash].js',
+        path: dist,
+        // publicPath:publicPath
     },
 };

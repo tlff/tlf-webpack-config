@@ -11,7 +11,8 @@ const arr=[
     "webpack.prod.js",
     "webpack.watch.js",
     "src",
-    "package.json"
+    "package.json",
+    ".babelrc"
 ]
 function mkdirs(dirpath, mode, callback) {
     fs.exists(dirpath, function (exists) {

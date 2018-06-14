@@ -1,6 +1,6 @@
 {
   "name": "tlf-webpack-config",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "自己配置的webpack脚手架",
   "main": "./src/js/index.js",
   "scripts": {
@@ -17,8 +17,8 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
@@ -37,6 +37,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "commander": "^2.15.1",
     "jquery": "^3.3.1"
   }

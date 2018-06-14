@@ -43,7 +43,7 @@ module.exports =merge.smart(common, {
 	},
 	plugins: [
 		new UglifyJSPlugin(),
-		new MiniCssExtractPlugin({ filename: './css/[name].[chunkhash].css' }),
+		new MiniCssExtractPlugin({ filename: 'css/[name].[chunkhash].css' }),
 		new webpack.optimize.SplitChunksPlugin({
 			chunks:"initial",
 			cacheGroups: {
@@ -57,7 +57,7 @@ module.exports =merge.smart(common, {
 		new webpack.optimize.RuntimeChunkPlugin({
 			name:'manifest'
 		}),
-		new BundleAnalyzerPlugin()
+		// new BundleAnalyzerPlugin()
 	],
 
 	
