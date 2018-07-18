@@ -3,110 +3,61 @@ const program = require("commander");
 const fs = require('fs');
 const PATH = require("path");
 function run(name) {
-    copy(PATH.resolve(__dirname, "../"), name);
+    copy1(PATH.resolve(__dirname, "../"), name);
 }
-const arr=[
+const arr = [
     "webpack.common.js",
     "webpack.dev.js",
     "webpack.prod.js",
     "webpack.watch.js",
     "src",
     "package.json",
-    ".babelrc"
+    ".babelrc",
+    ".gitignore"
 ]
-function mkdirs(dirpath, mode, callback) {
-    fs.exists(dirpath, function (exists) {
-        if (exists) {
-            callback(dirpath);
-        } else {
-            //尝试创建父目录，然后再创建当前目录
-            mkdirs(PATH.dirname(dirpath), mode, function () {
-                console.log(PATH.dirname(dirpath));
-                fs.mkdir(dirpath, mode, callback);
-            });
-        }
-    });
-};
-// let i=0;
-// let con=true;
-// function show(length,bo){
-//     con=con&&bo;
-//     i++;  
-//     if(length==i){
-//         console.log("初始化成功");
-//     } 
-// }
-function copy(src,dst){
-    dst=PATH.resolve(dst);
-    fs.exists(dst,function(exist){
-        if(!exist){
-            mkdirs(dst,"0777",function(){
-                arr.map(function(index){
-                    let _src = PATH.resolve(src, index);
-                    let _dst = PATH.resolve(dst, index);
-                    fs.stat(_src,function(err,stat){
-                        if(err){
-                            throw err;
-                        }
-                        if(stat.isFile()){
-                            copyFile(_src, _dst);
-                        }else{
-                            copyDir(_src, _dst);
-                        }
-                    })
-                })
-                console.log("初始化成功");
-            })
-        }else{
-            console.log("目录已存在");
-            return;
-        }
-    })    
-}
-function copyFile(_src,_dst){
-    fs.readFile(_src, 'utf-8', function (err, data) {
-        if (err) {
-            throw err;
-        }
 
-        fs.writeFile(_dst, data, 'utf-8', function (err) {
-            if (err) {
-                throw err;
-            }
-        });
-    })   
-}
-function copyDir(src, dst) {
-    fs.exists(dst, function (exist) {
-        if (!exist) {
-            fs.mkdir(dst, function () {
-                fs.readdir(src, function (err, paths) {
-                    if (err) {
-                        throw err;
-                    }
-                    paths.forEach(function (path) {
-                        var _src = PATH.resolve(src, path),
-                            _dst = PATH.resolve(dst, path);
-                        fs.stat(_src, function (err, stat) {
-                            if (err) {
-                                throw err;
-                            }
-                            
-                            if (stat.isFile()) {
-                                copyFile(_src, _dst);
-                            } else {
-                                copyDir(_src, _dst);
-                            }
-                        });
-                    })
-                })
-            });
+function copy1(src, dst) {
+    dst = PATH.resolve(dst);
+    if(fs.existsSync(dst)){
+        console.log(dst+"  已经存在!");
+        return;
+    }
+    if (!fs.existsSync(dst)) {
+        fs.mkdirSync(dst, "0777");
+    }
+    arr.forEach(ar => {
+        let _src = PATH.resolve(src, ar);
+        let _dst = PATH.resolve(dst, ar);
+        if (ar == "package.json") {
+            let data = fs.readFileSync(ar, { encoding: "utf-8" });
+            data = JSON.parse(data);
+            let { scripts, devDependencies } = data;
+            let a = { scripts, devDependencies }; 
+            fs.writeFileSync(_dst, JSON.stringify(a), { encoding: "utf-8" });
+            return;
         } else {
-            console.log("%s 已经存在", dst);
-            return false;
+            copy2(_src, _dst);
         }
     })
-
+    console.log(dst+"  创建完成");
+}
+function copy2(src, dst) {
+    dst = PATH.resolve(dst);
+    src = PATH.resolve(src);
+    if (fs.statSync(src).isFile()) {
+        fs.copyFileSync(src, dst);
+    } else if (fs.statSync(src).isDirectory()) {
+        let dirs = fs.readdirSync(src);
+        if (!fs.existsSync(dst)) {
+            fs.mkdirSync(dst, "0777");
+        }
+        dirs.forEach(dir => {
+            let _dst = PATH.resolve(dst, dir);
+            let _src = PATH.resolve(src, dir);
+            copy2(_src, _dst);
+        })
+    }
+    // console.log("生成:   " + dst);
 }
 program
     .command('create')
