@@ -10,7 +10,7 @@ module.exports =merge.smart(common, {
 	module: {
 		rules: [
 			{
-				test: /\.(scss|less|css)$/,
+				test: /\.(less|css)$/,
 
 				use: [
 					{
@@ -25,13 +25,6 @@ module.exports =merge.smart(common, {
 					},
 					{
 						loader: 'less-loader',
-
-						options: {
-							sourceMap: true
-						}
-					},
-					{
-						loader: 'sass-loader',
 
 						options: {
 							sourceMap: true
