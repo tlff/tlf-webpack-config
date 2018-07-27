@@ -1,11 +1,12 @@
 {
   "name": "tlf-webpack-config",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "自己配置的webpack脚手架",
   "main": "./src/js/index.js",
   "scripts": {
     "build": "webpack  --config webpack.prod.js",
     "start": "webpack-dev-server --inline --config webpack.dev.js --open",
+    "hot": "webpack-dev-server --hotOnly --config webpack.dev.js --open",
     "watch": "webpack --config webpack.watch.js --watch"
   },
   "keywords": [
