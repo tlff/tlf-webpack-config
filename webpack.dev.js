@@ -1,21 +1,24 @@
 const webpack = require('webpack');
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 module.exports = merge.smart(common, {
 	devServer: {
-		contentBase: './dist',
+		contentBase: path.join(__dirname, "src", "view"),
 		hot: true,
 		watchContentBase: true,
-		openPage: "./view/index.html"
+		openPage: "./index.html",
+		compress: true,
+		host: 'localhost',
+		port: 8080,
 		// proxy: {
-		// 	'*': {
-		// 		target: 'http://localhost:80/ppt/web',
+		// 	'/api': {
+		// 		target: 'http://www.baidu.com/',
 		// 		changeOrigin: true,
 		// 		secure: false,
-		// 		pathRewrite: { "^/view": "" }
+		// 		pathRewrite: { "^/api": "" }
 		// 	}
 		// }
 	},
@@ -59,6 +62,13 @@ module.exports = merge.smart(common, {
 	plugins: [
 		new webpack.NamedModulesPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
+		new HtmlWebpackPlugin({
+			filename: "./index.html",
+			template: './src/view/index.html',
+			hash: false,
+			inject: true,
+			chunksSortMode: 'auto',
+		}),
 		// new BundleAnalyzerPlugin()
 	],
 	devtool: 'eval-source-map',
@@ -66,6 +76,5 @@ module.exports = merge.smart(common, {
 	output: {
 		filename: './js/[name].[hash].js',
 		path: path.resolve(__dirname, 'dist'),
-		publicPath: 'http://localhost:8080/',
 	},
 });
