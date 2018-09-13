@@ -39,11 +39,19 @@ module.exports =merge.smart(common, {
 		new MiniCssExtractPlugin({ filename: 'css/[name].[chunkhash].css' }),
 		new webpack.optimize.SplitChunksPlugin({
 			chunks:"initial",
+			"minSize": 0,
+			"misChunks": 1,
+			"maxAsyncRequests": 1,
+			"maxInitialRequests": 1,
+			"name": false,
+			"automaticNameDelimiter": "~",
+			// "filename": false,
 			cacheGroups: {
 				commons: {
 					test: /[\\/]node_modules[\\/]/,
 					name: "vendor",
-					enforce: true
+					enforce: true,
+					"priority": -20,
 				},
 			}
 		}),

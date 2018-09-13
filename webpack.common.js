@@ -7,6 +7,9 @@ const root="/webpackconfig/";
 const dist = path.resolve(__dirname, dir);
 const publicPath = path.join("/webpackconfig", dir);
 module.exports = {
+    externals: {
+        jquery: 'jQuery'
+    },
     module: {
         rules: [
             {
