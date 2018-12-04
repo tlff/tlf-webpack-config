@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`测试confirm 测试confirm并取消 1`] = `
+<div
+  aria-labelledby="win_confirm_title"
+  class="modal fade"
+  id="win_confirm"
+  role="dialog"
+  style="padding-right: 0px;"
+  tabindex="-1"
+>
+     
+  <div
+    class="modal-dialog modal-sm"
+    role="document"
+  >
+            
+    <div
+      class="modal-content"
+    >
+                
+      <div
+        class="modal-header"
+      >
+                       
+        <h4
+          class="modal-title"
+          id="win_confirm_title"
+        >
+          提示框
+        </h4>
+                    
+      </div>
+               
+      <div
+        class="modal-body"
+        id="win_confirm_msg"
+      >
+        测试
+      </div>
+               
+      <div
+        class="modal-footer"
+      >
+                       
+        <button
+          class="btn btn-default win_confirm_cancel"
+          data-dismiss="modal"
+          type="button"
+        >
+          取消
+        </button>
+                      
+        <button
+          class="btn btn-primary win_confirm_ok"
+          type="button"
+        >
+          确定
+        </button>
+                 
+      </div>
+           
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`测试confirm 测试confirm并确定 1`] = `
+<div
+  aria-labelledby="win_confirm_title"
+  class="modal fade"
+  id="win_confirm"
+  role="dialog"
+  style="padding-right: 0px;"
+  tabindex="-1"
+>
+     
+  <div
+    class="modal-dialog modal-sm"
+    role="document"
+  >
+            
+    <div
+      class="modal-content"
+    >
+                
+      <div
+        class="modal-header"
+      >
+                       
+        <h4
+          class="modal-title"
+          id="win_confirm_title"
+        >
+          提示框
+        </h4>
+                    
+      </div>
+               
+      <div
+        class="modal-body"
+        id="win_confirm_msg"
+      >
+        测试
+      </div>
+               
+      <div
+        class="modal-footer"
+      >
+                       
+        <button
+          class="btn btn-default win_confirm_cancel"
+          data-dismiss="modal"
+          type="button"
+        >
+          取消
+        </button>
+                      
+        <button
+          class="btn btn-primary win_confirm_ok"
+          type="button"
+        >
+          确定
+        </button>
+                 
+      </div>
+           
+    </div>
+     
+  </div>
+</div>
+`;
+
+exports[`测试弹出框 测试弹出框1 1`] = `
+<div
+  aria-labelledby="win_alert_title"
+  class="modal fade"
+  id="win_alert"
+  role="dialog"
+  style="padding-right: 0px;"
+  tabindex="-1"
+>
+     
+  <div
+    class="modal-dialog modal-sm"
+    role="document"
+  >
+           
+    <div
+      class="modal-content"
+    >
+                 
+      <div
+        class="modal-header"
+      >
+                       
+        <h4
+          class="modal-title"
+          id="win_alert_title"
+        >
+          提示
+        </h4>
+                   
+      </div>
+                 
+      <div
+        class="modal-body"
+        id="win_alert_msg"
+      >
+        测试
+      </div>
+                 
+      <div
+        class="modal-footer"
+      >
+                       
+        <button
+          class="btn btn-primary win_alert_btn"
+          type="button"
+        >
+          确定
+        </button>
+                   
+      </div>
+             
+    </div>
+       
+  </div>
+</div>
+`;
+
+exports[`生成标签 1`] = `"<span class= \\"label label-mini success\\" >测试</span>"`;
