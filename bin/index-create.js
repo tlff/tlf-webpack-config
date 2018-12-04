@@ -6,10 +6,7 @@ function run(name) {
     copy1(PATH.resolve(__dirname, "../"), name);
 }
 const arr = [
-    "webpack.common.js",
-    "webpack.dev.js",
-    "webpack.prod.js",
-    "webpack.watch.js",
+    "webpack.config.js",
     "src",
     "package.json",
     ".babelrc"

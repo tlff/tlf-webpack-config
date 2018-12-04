@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[1],[function(n,o){n.exports=jQuery},function(n,o,e){"use strict";var t,s=(t=e(0))&&t.__esModule?t:{default:t};console.log(333),s.default.ajax({url:"/api/index/test1",dataType:"json"}).then(function(n){console.log(n)},function(n){})}],[[1,0]]]);

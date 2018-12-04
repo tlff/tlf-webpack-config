@@ -1,13 +1,13 @@
 {
   "name": "tlf-webpack-config",
-  "version": "1.2.4",
+  "version": "2.0.1",
   "description": "自己配置的webpack脚手架",
   "main": "./src/js/index.js",
   "scripts": {
-    "build": "webpack  --config webpack.prod.js",
-    "start": "webpack-dev-server --inline --config webpack.dev.js --open",
-    "hot": "webpack-dev-server --hotOnly --config webpack.dev.js --open",
-    "watch": "webpack --config webpack.watch.js --watch"
+    "build": "webpack  --config webpack.config.js --env production --progress",
+    "start": "webpack-dev-server --inline --config webpack.config.js --open --env development --progress --ishot true",
+    "watch": "webpack --config webpack.config.js --watch --env development --progress",
+    "test": "jest"
   },
   "keywords": [
     "webpack",
@@ -22,29 +22,38 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
+    "eslint": "^5.9.0",
+    "eslint-config-google": "^0.11.0",
     "file-loader": "^1.1.11",
-    "html-webpack-plugin": "^4.0.0-alpha",
-    "less": "^3.0.4",
+    "html-webpack-plugin": "^4.0.0-beta.4",
+    "jest": "^23.6.0",
+    "jest-webpack": "^0.5.1",
+    "less": "^3.8.1",
     "less-loader": "^4.1.0",
-    "mini-css-extract-plugin": "^0.4.0",
+    "mini-css-extract-plugin": "^0.4.5",
     "style-loader": "^0.21.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.8.3",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "url-loader": "^1.1.2",
+    "vue-jest": "^3.0.1",
+    "vue-loader": "^15.4.2",
+    "webpack": "^4.26.0",
     "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-cli": "^2.1.2",
-    "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "commander": "^2.15.1",
-    "jquery": "^3.3.1"
+    "commander": "^2.19.0",
+    "icheck": "^1.0.2",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11"
   },
   "repository": {
     "type": "git",
@@ -53,5 +62,27 @@
   "bugs": {
     "url": "https://github.com/tlff/tlf-webpack-config/issues"
   },
-  "homepage": "https://github.com/tlff/tlf-webpack-config#readme"
+  "homepage": "https://github.com/tlff/tlf-webpack-config#readme",
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "^vue$": "vue/dist/vue.common.js",
+      "^icheck$": "<rootDir>/__mocks__/icheck.js"
+    },
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/__tests__/**/*.js?(x)",
+      "**/?(*.)+(spec|test).js?(x)",
+      "**/src/test/**/*.js?(x)"
+    ]
+  }
 }
