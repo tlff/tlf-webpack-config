@@ -1,5 +1,4 @@
 import win from "./win";
-import { resolve } from "path";
 export default class utils {
     constructor() {
     }
@@ -15,15 +14,15 @@ export default class utils {
                     reject(d, ele);
                 }
                 return true;
-            })
-        })
+            });
+        });
 
     }
     static crtTime(val) {
         val=parseInt(val);
         if (val) {
             var date = new Date(val);
-            return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+            return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
         }
         return "";
     }
@@ -38,7 +37,7 @@ export default class utils {
             orderby,
             order,
             param
-        }
+        };
         return $.ajax({
             type: "POST",
             url: url,
@@ -68,6 +67,7 @@ export default class utils {
         }
     }
     static validEmail(email) {
+        // eslint-disable-next-line no-useless-escape
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
     }

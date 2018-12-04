@@ -9,7 +9,6 @@ $.ajax({
 }).catch(er=>{
     console.log(er);
 });
-console.log(_.join(['a','c'],""));
 if (module.hot) {
     module.hot.accept();
 }

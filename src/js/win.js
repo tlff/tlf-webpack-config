@@ -1,15 +1,15 @@
-;
-var $=window.$=jQuery=window.jQuery=require('jquery');
+/* eslint-disable no-global-assign */
+var $ = window.$ = jQuery = window.jQuery = require("jquery");
 // require("bootstrap");
 // import $ from "jquery";
 (function (root, factory) {
     var win = factory(root);
-    if (typeof define === 'function' && define.amd) {
+    if (typeof define === "function" && define.amd) {
         // AMD
-        define('win', function () {
+        define("win", function () {
             return win;
         });
-    } else if (typeof exports === 'object') {
+    } else if (typeof exports === "object") {
         // Node.js
         module.exports = win;
     } else {
@@ -23,7 +23,7 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
         };
         root.win = win;
     }
-}(this, function (root) {
+}(this, function () {
     var o = {
         "confirm_title": "提示框", //confirm 弹出框title中的文本
         "confirm_btn_cancel": "取消", //confirm 中取消按钮的文本
@@ -35,7 +35,6 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
     };
     var slice = [].slice;
     var one = {}; //函数内部缓存
-    var gc = {};
 
 
     function extend() {
@@ -83,10 +82,6 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
         return templ;
     }
 
-    function removeAlert() {
-        one.alert.modal('hide');
-    }
-
     function drawGritter(msg) {
         var box = $("<div id=\"win_gritter\"></div>");
         var title = $("<div class=\"win_gritter_title clear_float\"></div>");
@@ -94,19 +89,19 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
         var body = $("<div class=\"win_gritter_body\"></div>");
         var clear = $("<div></div>");
         box.css({
-            'background-color': 'rgba(0, 0, 0, 0.97)',
-            'position': 'fixed',
-            'top': '10px',
-            'right': '30px',
-            'width': '150px',
-            'padding': '5px',
-            'border': '1px solid rgba(51, 51, 51, 0.16)',
-            'background': 'rgba(0,0,0,0.6)',
+            "background-color": "rgba(0, 0, 0, 0.97)",
+            "position": "fixed",
+            "top": "10px",
+            "right": "30px",
+            "width": "150px",
+            "padding": "5px",
+            "border": "1px solid rgba(51, 51, 51, 0.16)",
+            "background": "rgba(0,0,0,0.6)",
             "z-index": 1000
         });
         title.css({
-            'display': 'block',
-            'width': '100%',
+            "display": "block",
+            "width": "100%",
         });
         body.css({
             "display": "block",
@@ -115,13 +110,13 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
             "color": "rgb(245, 245, 245)",
             "overflow": "hidden",
 
-        })
+        });
         x.css({
-            "float": 'right',
-            "color": '#DE431C',
+            "float": "right",
+            "color": "#DE431C",
         });
         body.html(msg);
-        clear.css('clear', 'both');
+        clear.css("clear", "both");
         x.appendTo(title);
         clear.appendTo(title);
         title.appendTo(box);
@@ -130,16 +125,16 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
     }
 
     function gritter_animate(box) {
-        box.css('opacity', '0');
+        box.css("opacity", "0");
         box.appendTo($("body"));
         box.animate({
             "opacity": 1,
-        }, 1000)
+        }, 1000);
         return box;
     }
 
     function gritter_event(box) {
-        box.on('click', '.win_close', function (event) {
+        box.on("click", ".win_close", function (event) {
             event.preventDefault();
             box.remove();
         });
@@ -148,9 +143,9 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
                 "opacity": 0,
             }, 1000, function () {
                 box.remove();
-            })
+            });
             // box.remove();
-        }, "1000")
+        }, "1000");
         return box;
     }
     //将模板添加到dom中
@@ -185,13 +180,13 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
                     instance.close();
                 };
                 instance.onerror = function () {
-                    console.log('onerror');
+                    console.log("onerror");
                 };
                 instance.onshow = function () {
-                    console.log('onshow');
+                    console.log("onshow");
                 };
                 instance.onclose = function () {
-                    console.log('onclose');
+                    console.log("onclose");
                 };
             } else { //第一次询问或已经禁止通知(如果用户之前已经禁止显示通知，那么浏览器不会再次询问用户的意见，Notification.requestPermission()方法无效)  
                 Notification.requestPermission(function (status) {
@@ -213,18 +208,18 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
                             // Something to do  
                         };
                     } else { //用户禁止  
-                        return false
+                        return false;
                     }
                 });
             }
         } else { //不支持(IE等)  
-            var index = 0;
-            clearInterval(timer);
+            var index = 0,timer;
+            timer?clearInterval(timer):"";
             timer = setInterval(function () {
                 if (index % 2) {
-                    $('title').text('【　　　】' + title); //这里是中文全角空格，其他不行  
+                    $("title").text("【　　　】" + title); //这里是中文全角空格，其他不行  
                 } else {
-                    $('title').text('【新消息】' + title);
+                    $("title").text("【新消息】" + title);
                 }
                 index++;
                 if (index > 20) {
@@ -235,35 +230,35 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
     }
 
     function removeConfirm() {
-        one.confirm.modal('hide');
+        one.confirm.modal("hide");
     }
     //重新调整提示框的大小
     function resize($templ, options) {
         switch (options.size) {
-            case "small":
-                $templ.find('.modal-dialog').removeClass('modal-lg').addClass('modal-sm');
-                break;
-            case "big":
-                $templ.find('.modal-dialog').removeClass('modal-sm').addClass('modal-lg');
-                break;
-            case "normal":
-                $templ.find('.modal-dialog').removeClass('modal-sm').removeClass('modal-lg');
-                break;
+        case "small":
+            $templ.find(".modal-dialog").removeClass("modal-lg").addClass("modal-sm");
+            break;
+        case "big":
+            $templ.find(".modal-dialog").removeClass("modal-sm").addClass("modal-lg");
+            break;
+        case "normal":
+            $templ.find(".modal-dialog").removeClass("modal-sm").removeClass("modal-lg");
+            break;
         }
     }
     var win = function () { };
-    win.alert = function (msg, callback, option) {
-        var modal=appendAlert(msg);
+    win.alert = function (msg, callback) {
+        var modal = appendAlert(msg);
         var f = false;
         // modal.off("hidden.bs.modal");
-        modal.on("hidden.bs.modal", function (e) {
-            modal.remove();   
-        })
+        modal.on("hidden.bs.modal", function () {
+            modal.remove();
+        });
         // modal.off("click", '.win_alert_btn');
-        modal.on('click', '.win_alert_btn', function (event) {
+        modal.on("click", ".win_alert_btn", function (event) {
             event.preventDefault();
             f = true;
-            modal.modal('hide');
+            modal.modal("hide");
             one.alert = null;
             if (isFn(callback)) {
                 callback(this, f);
@@ -271,20 +266,20 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
             // removeAlert();
         });
         return modal;
-    }
+    };
     win.confirm = function (msg, callback, option) {
         //big small normal  
         var options = {
             "size": "small",
-        }
+        };
         options = $.extend({}, options, option);
-        var modal=appendConfirm(msg, options);
+        var modal = appendConfirm(msg, options);
         var f = false; //返回的data属性
         var iscall = true; //是否需要出发回调函数
         // modal.off("click", '.win_confirm_cancel');
         // modal.off("click", '.win_confirm_ok');
         // one.confirm.off("hidden.bs.modal");
-        modal.on('click', '.win_confirm_cancel', function (event) {
+        modal.on("click", ".win_confirm_cancel", function (event) {
             event.preventDefault();
             f = false;
             if (isFn(callback) && iscall) {
@@ -297,7 +292,7 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
                 }
             }
         });
-        modal.on('click', '.win_confirm_ok', function (event) {
+        modal.on("click", ".win_confirm_ok", function (event) {
             event.preventDefault();
             f = true;
             if (isFn(callback) && iscall) {
@@ -311,7 +306,7 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
             }
             return false;
         });
-        modal.on("hidden.bs.modal", function (e) {
+        modal.on("hidden.bs.modal", function () {
             // removeConfirm();
             modal.remove();
             one.confirm = null;
@@ -319,21 +314,21 @@ var $=window.$=jQuery=window.jQuery=require('jquery');
                 callback(modal, f);
             }
             f = false;
-        })
-    }
-    win.gritter = function (msg, callback) {
+        });
+    };
+    win.gritter = function (msg) {
         var box = drawGritter(msg);
         box = gritter_animate(box);
-        box = gritter_event(box);
-    }
-    win.notice = function (title, msg, callback) {
+        gritter_event(box);
+    };
+    win.notice = function (title, msg) {
         showMsgNotification(title, msg);
-    }
+    };
     win.config = function (option) {
         if (isObject(option)) {
             o = extend(o, option);
         }
         return;
-    }
+    };
     return win;
-}))
+}));

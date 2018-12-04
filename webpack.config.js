@@ -1,25 +1,23 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-const webpack = require('webpack');
+const webpack = require("webpack");
 const fs = require("fs");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
-const PATH = require('path');
-const dist = PATH.resolve(__dirname, './src/dist/');
-const SRC = PATH.resolve(__dirname, './src/');
-const VIEW = PATH.join(__dirname, './src/view/');
-
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { VueLoaderPlugin } = require("vue-loader");
+const PATH = require("path");
+const dist = PATH.resolve(__dirname, "./src/dist/");
+const VIEW = PATH.join(__dirname, "./src/view/");
 //config
 //build的时候是否显示报告
 const REPORT = true;
 //排除的文件,不会个这几个文件注入js
-const EXCLUDE = ['footer', 'head', 'header', 'leftside', 'script', 'debug'];
+const EXCLUDE = ["footer", "head", "header", "leftside", "script", "debug"];
 //入口
 const ENTRY = {
-    index: './src/js/index.js'
-}
+    index: "./src/js/index.js"
+};
 //通用chunk
 const COMMONCHUNKS = [];
 
@@ -28,14 +26,14 @@ module.exports = function (env, argv) {
     function readDirSync(path) {
         let ret = [];
         let pa = fs.readdirSync(path);
-        pa.forEach(function (ele, index) {
-            let info = fs.statSync(path + "/" + ele)
+        pa.forEach(function (ele) {
+            let info = fs.statSync(path + "/" + ele);
             if (info.isDirectory()) {
                 ret = ret.concat(readDirSync(PATH.join(path, ele)));
             } else {
                 ret = ret.concat(PATH.join(path, ele));
             }
-        })
+        });
         return ret;
     }
     function getview(path) {
@@ -43,7 +41,7 @@ module.exports = function (env, argv) {
         let basepath = PATH.join(path);
         let files = readDirSync(basepath);
         files.forEach(v => {
-            let chunk = v.replace(/.*[\\/]/, '').split(".").shift();
+            let chunk = v.replace(/.*[\\/]/, "").split(".").shift();
             let chunks = [];
             if (EXCLUDE.indexOf(chunk) == -1) {
                 chunks = COMMONCHUNKS.concat([chunk]);
@@ -54,25 +52,25 @@ module.exports = function (env, argv) {
                 chunks: chunks,
                 hash: false,
                 inject: true,
-                chunksSortMode: 'auto',
+                chunksSortMode: "auto",
             });
             ret.push(t);
-        })
+        });
         return ret;
     }
 
     const DEVSERVER = argv.ishot ? {
-        contentBase: PATH.join(__dirname, "src", 'view'),
+        contentBase: PATH.join(__dirname, "src", "view"),
         // hot: true,
         watchContentBase: true,
         openPage: "./view/index.html",
         publicPath: "http://localhost:8080/",
         compress: false,
-        host: 'localhost',
+        host: "localhost",
         port: 8080,
         proxy: {
-            '/api': {
-                target: 'http://localhost/test',
+            "/api": {
+                target: "http://localhost/test",
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: { "^/api": "" }
@@ -84,16 +82,16 @@ module.exports = function (env, argv) {
         var plugins = [];
         plugins.push(new CleanWebpackPlugin(dist));
         plugins.push(new VueLoaderPlugin());
-        plugins.push(new MiniCssExtractPlugin({ filename: 'css/[name].css' }));
+        plugins.push(new MiniCssExtractPlugin({ filename: "css/[name].css" }));
         plugins.push(new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(env)
+            "process.env.NODE_ENV": JSON.stringify(env)
         }));
         plugins.push(new webpack.ProvidePlugin({
-            "_": 'lodash',
-            "$":'jquery',
-            "jQuery":'jquery',
-            "window.jQuery":'jquery',
-            "window.$":'jquery'
+            "_": "lodash",
+            "$": "jquery",
+            "jQuery": "jquery",
+            "window.jQuery": "jquery",
+            "window.$": "jquery"
         }));
 
         if (argv.ishot) {
@@ -104,30 +102,30 @@ module.exports = function (env, argv) {
         plugins = plugins.concat(getview(VIEW));
         // plugins.push(
         //     new HtmlWebpackPlugin({
-        //         filename: 'view/index.html',
-        //         template: './src/view/index.html',
-        //         chunks: ['app', 'test']
+        //         filename: "view/index.html",
+        //         template: "./src/view/index.html",
+        //         chunks: ["app", "test"]
         //     }),
         //     new HtmlWebpackPlugin({
-        //         filename: 'view/test.html',
-        //         template: './src/view/index.html',
-        //         chunks: ['test']
+        //         filename: "view/test.html",
+        //         template: "./src/view/index.html",
+        //         chunks: ["test"]
         //     })
         // )
         //build的时候用到的插件
         var buildPlugins = [
-            // new UglifyJSPlugin({
-            //     parallel: true,
-            //     cache: false,
-            //     extractComments: true
-            // }),
+            new UglifyJSPlugin({
+                parallel: true,
+                cache: false,
+                extractComments: true
+            }),
             new webpack.optimize.SplitChunksPlugin({
                 chunks: "initial",
                 minSize: 30000,
                 minChunks: 1,
                 maxAsyncRequests: 5,
                 maxInitialRequests: 4,
-                automaticNameDelimiter: '~',
+                automaticNameDelimiter: "~",
                 name: true,
                 cacheGroups: {
                     default: {
@@ -142,24 +140,24 @@ module.exports = function (env, argv) {
                 }
             }),
             new webpack.optimize.RuntimeChunkPlugin({
-                name: 'runtime'
+                name: "runtime"
             })
-        ]
-        env == 'production' && REPORT ? plugins.push(new BundleAnalyzerPlugin({
+        ];
+        env == "production" && REPORT ? plugins.push(new BundleAnalyzerPlugin({
             analyzerMode: "static",
             openAnalyzer: false
         })) : "";
-        return env == 'production' ? plugins.concat(buildPlugins) : plugins;
-    })()
+        return env == "production" ? plugins.concat(buildPlugins) : plugins;
+    })();
     //代码显示模式
-    const DEVTOOL = (() => { return env == 'production' ? '' : 'eval-source-map' })();
+    const DEVTOOL = (() => { return env == "production" ? "" : "eval-source-map"; })();
     //环境
     const MODE = (() => { return env; })();
 
     let ret = {
         entry: ENTRY,
         output: {
-            filename: 'js/[name].js',
+            filename: "js/[name].js",
             path: dist
         },
         externals: {
@@ -167,8 +165,8 @@ module.exports = function (env, argv) {
         },
         resolve: {
             alias: {
-                'VUE': 'vue/dist/vue.esm.js',
-                'vue': 'vue/dist/vue.esm.js'
+                "VUE": "vue/dist/vue.esm.js",
+                "vue": "vue/dist/vue.esm.js"
             }
         },
         module: {
@@ -176,24 +174,24 @@ module.exports = function (env, argv) {
                 {
                     test: /\.js$/,
                     exclude: /node_modules/,
-                    loader: 'babel-loader',
+                    loader: "babel-loader",
 
                     options: {
-                        presets: ['env']
+                        presets: ["env"]
                     }
                 },
                 {
                     test: /\.vue$/,
                     exclude: /node_modules/,
-                    loader: 'vue-loader',
+                    loader: "vue-loader",
                 },
                 {
                     test: /\.(png|svg|jpg|gif)$/,
                     use: [{
-                        loader: 'url-loader',
+                        loader: "url-loader",
                         options: {
                             limit: 8192,
-                            name: 'images/[name].[ext]',
+                            name: "images/[name].[ext]",
                             // outputPath: "images/",
                             // publicPath: "themes/default/view/images"
                         }
@@ -201,7 +199,7 @@ module.exports = function (env, argv) {
                 },
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
-                    loader: 'file-loader',
+                    loader: "file-loader",
                     options: {
                         name: "font/[name].[ext]",
                         // outputPath: "font/"
@@ -215,14 +213,14 @@ module.exports = function (env, argv) {
                             loader: MiniCssExtractPlugin.loader,
                         },
                         {
-                            loader: 'css-loader',
+                            loader: "css-loader",
 
                             options: {
                                 sourceMap: true,
                             }
                         },
                         {
-                            loader: 'less-loader',
+                            loader: "less-loader",
 
                             options: {
                                 sourceMap: true
@@ -247,6 +245,6 @@ module.exports = function (env, argv) {
         //     entrypoints: false
         // },
         stats: "minimal"
-    }
+    };
     return ret;
-}
+};

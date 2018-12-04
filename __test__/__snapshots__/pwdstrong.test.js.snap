@@ -8,21 +8,27 @@ exports[`reset.test.js 测试 '123' 是弱密码 1`] = `
     class="strength_L"
     style="background-color: rgb(238, 238, 238);"
   >
+    
     弱
+  
   </li>
    
   <li
     class="strength_M"
     style="background-color: rgb(238, 238, 238);"
   >
+    
     中
+  
   </li>
    
   <li
     class="strength_H"
     style="background-color: rgb(238, 238, 238);"
   >
+    
     强
+  
   </li>
 </ul>
 `;
@@ -35,21 +41,27 @@ exports[`reset.test.js 测试 12$#afiojgSF 是复杂密码 1`] = `
     class="strength_L"
     style="background-color: rgb(255, 216, 180);"
   >
+    
     弱
+  
   </li>
    
   <li
     class="strength_M"
     style="background-color: rgb(255, 175, 86);"
   >
+    
     中
+  
   </li>
    
   <li
     class="strength_H"
     style="background-color: rgb(232, 89, 89);"
   >
+    
     强
+  
   </li>
 </ul>
 `;
@@ -62,21 +74,27 @@ exports[`reset.test.js 测试 1234123 是弱密码 1`] = `
     class="strength_L"
     style="background-color: rgb(255, 216, 180);"
   >
+    
     弱
+  
   </li>
    
   <li
     class="strength_M"
     style="background-color: rgb(238, 238, 238);"
   >
+    
     中
+  
   </li>
    
   <li
     class="strength_H"
     style="background-color: rgb(238, 238, 238);"
   >
+    
     强
+  
   </li>
 </ul>
 `;
@@ -89,21 +107,27 @@ exports[`reset.test.js 测试密码 a82820070 是中等密码 1`] = `
     class="strength_L"
     style="background-color: rgb(255, 216, 180);"
   >
+    
     弱
+  
   </li>
    
   <li
     class="strength_M"
     style="background-color: rgb(255, 175, 86);"
   >
+    
     中
+  
   </li>
    
   <li
     class="strength_H"
     style="background-color: rgb(238, 238, 238);"
   >
+    
     强
+  
   </li>
 </ul>
 `;
