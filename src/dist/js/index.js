@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{0:function(o,n,c){"use strict";(function(o,n){c(5),console.log(333),o.ajax({url:"/api/index/test1",dataType:"json"}).then(function(o){console.log(o)}).catch(function(o){console.log(o)}),console.log(n.join(["a","c"],""))}).call(this,c(1),c(2))},5:function(o,n,c){}},[[0,1,2]]]);

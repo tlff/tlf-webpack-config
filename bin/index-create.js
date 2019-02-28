@@ -1,17 +1,21 @@
 #!/usr/bin/env node
 const program = require("commander");
-const fs = require('fs');
+const fs = require("fs");
 const PATH = require("path");
 function run(name) {
     copy1(PATH.resolve(__dirname, "../"), name);
 }
 const arr = [
     "webpack.config.js",
+    "webpack.test.js",
     "src",
     "package.json",
-    ".babelrc"
-]
-const gitignore =`.vscode
+    ".babelrc",
+    ".eslintrc.js",
+    ".gitignore",
+    "karma.conf.js"
+];
+const gitignore = `.vscode
 /node_modules/
 .*.swp
 ._*
@@ -26,7 +30,7 @@ CVS
 npm-debug.log
 .vscode
 `;
-const npmignore=`.vscode
+const npmignore = `.vscode
 /node_modules/
 .*.swp
 ._*
@@ -44,7 +48,7 @@ npm-debug.log
 function copy1(src, dst) {
     dst = PATH.resolve(dst);
     src = PATH.resolve(src);
-    
+
     if (fs.existsSync(dst)) {
         console.log(dst + "  已经存在!");
         return;
@@ -67,7 +71,7 @@ function copy1(src, dst) {
         } else {
             copy2(_src, _dst);
         }
-    })
+    });
     console.log(dst + "  创建完成");
 }
 function copy2(src, dst) {
@@ -84,14 +88,14 @@ function copy2(src, dst) {
             let _dst = PATH.resolve(dst, dir);
             let _src = PATH.resolve(src, dir);
             copy2(_src, _dst);
-        })
+        });
     }
     // console.log("生成:   " + dst);
 }
 program
-    .command('create')
-    .description('创建一个项目')
-    .alias('c')
+    .command("create")
+    .description("创建一个项目")
+    .alias("c")
     .action(function (name) {
         run(name);
     });

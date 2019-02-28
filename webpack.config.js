@@ -5,24 +5,32 @@ const fs = require("fs");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const { VueLoaderPlugin } = require("vue-loader");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const PATH = require("path");
-const dist = PATH.resolve(__dirname, "./src/dist/");
+const dist = PATH.resolve(__dirname, "./dist");
 const VIEW = PATH.join(__dirname, "./src/view/");
+
 //config
 //build的时候是否显示报告
 const REPORT = true;
-//排除的文件,不会个这几个文件注入js
-const EXCLUDE = ["footer", "head", "header", "leftside", "script", "debug"];
+//@代表/ 表示下一个文件夹
+//排除的文件                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                这几个文件注入js
+const EXCLUDE = ["common@css"];
 //入口
 const ENTRY = {
-    index: "./src/js/index.js"
+    "index": "./src/js/index.js",
 };
 //通用chunk
+// const COMMONCHUNKS = ["app"];
 const COMMONCHUNKS = [];
 
 
+function resolve(dir) {
+    return PATH.join(__dirname, dir);
+}
 module.exports = function (env, argv) {
+    env=env?env:"development";
     function readDirSync(path) {
         let ret = [];
         let pa = fs.readdirSync(path);
@@ -41,18 +49,20 @@ module.exports = function (env, argv) {
         let basepath = PATH.join(path);
         let files = readDirSync(basepath);
         files.forEach(v => {
-            let chunk = v.replace(/.*[\\/]/, "").split(".").shift();
+            // let chunk = v.replace(/.*[\\/]/, "").split(".").shift();
+            let chunk = v.replace(path, "").replace(/[\\/]/, "@").split(".").shift();
             let chunks = [];
             if (EXCLUDE.indexOf(chunk) == -1) {
                 chunks = COMMONCHUNKS.concat([chunk]);
             }
             let t = new HtmlWebpackPlugin({
-                filename: v.replace(basepath, ""),
+                filename: "view/" + v.replace(basepath, ""),
                 template: v,
                 chunks: chunks,
                 hash: false,
                 inject: true,
                 chunksSortMode: "auto",
+                minify: false
             });
             ret.push(t);
         });
@@ -79,13 +89,38 @@ module.exports = function (env, argv) {
     } : {};
     //插件
     const PLUGINS = (function () {
-        var plugins = [];
+        var plugins = [
+            // new webpack.optimize.SplitChunksPlugin({
+            //     chunks: "initial",
+            //     minSize: 30000,
+            //     minChunks: 1,
+            //     maxAsyncRequests: 5,
+            //     maxInitialRequests: 3,
+            //     automaticNameDelimiter: "~",
+            //     name: true,
+            //     cacheGroups: {
+            //         default: {
+            //             minChunks: 3,
+            //             priority: -20,
+            //             reuseExistingChunk: true,
+            //         },
+            //         vendors: {
+            //             test: /[\\/]node_modules[\\/]/,
+            //             priority: -10
+            //         }
+            //     }
+            // }),
+            // new webpack.optimize.RuntimeChunkPlugin({
+            //     name: "runtime"
+            // }),
+        ];
         plugins.push(new CleanWebpackPlugin(dist));
         plugins.push(new VueLoaderPlugin());
         plugins.push(new MiniCssExtractPlugin({ filename: "css/[name].css" }));
         plugins.push(new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify(env)
         }));
+        plugins.push(new LodashModuleReplacementPlugin);
         plugins.push(new webpack.ProvidePlugin({
             "_": "lodash",
             "$": "jquery",
@@ -102,29 +137,24 @@ module.exports = function (env, argv) {
         plugins = plugins.concat(getview(VIEW));
         // plugins.push(
         //     new HtmlWebpackPlugin({
-        //         filename: "view/index.html",
-        //         template: "./src/view/index.html",
-        //         chunks: ["app", "test"]
+        //         filename: 'view/index.html',
+        //         template: './src/view/index.html',
+        //         chunks: ['app', 'test']
         //     }),
         //     new HtmlWebpackPlugin({
-        //         filename: "view/test.html",
-        //         template: "./src/view/index.html",
-        //         chunks: ["test"]
+        //         filename: 'view/test.html',
+        //         template: './src/view/index.html',
+        //         chunks: ['test']
         //     })
         // )
         //build的时候用到的插件
         var buildPlugins = [
-            new UglifyJSPlugin({
-                parallel: true,
-                cache: false,
-                extractComments: true
-            }),
             new webpack.optimize.SplitChunksPlugin({
                 chunks: "initial",
                 minSize: 30000,
                 minChunks: 1,
                 maxAsyncRequests: 5,
-                maxInitialRequests: 4,
+                maxInitialRequests: 3,
                 automaticNameDelimiter: "~",
                 name: true,
                 cacheGroups: {
@@ -141,7 +171,13 @@ module.exports = function (env, argv) {
             }),
             new webpack.optimize.RuntimeChunkPlugin({
                 name: "runtime"
-            })
+            }),
+            new UglifyJSPlugin({
+                parallel: false,
+                cache: false,
+                extractComments: true
+            }),
+
         ];
         env == "production" && REPORT ? plugins.push(new BundleAnalyzerPlugin({
             analyzerMode: "static",
@@ -150,7 +186,7 @@ module.exports = function (env, argv) {
         return env == "production" ? plugins.concat(buildPlugins) : plugins;
     })();
     //代码显示模式
-    const DEVTOOL = (() => { return env == "production" ? "" : "eval-source-map"; })();
+    const DEVTOOL = (() => { return env == "production" ? "" : "inline-source-map"; })();
     //环境
     const MODE = (() => { return env; })();
 
@@ -158,15 +194,19 @@ module.exports = function (env, argv) {
         entry: ENTRY,
         output: {
             filename: "js/[name].js",
-            path: dist
+            path: dist,
+            // publicPath: "/..<?php echo APP_HTTP_ROOT . $this->GetThemes(); ?>/",
+            publicPath: "/new_bbs/sr/themes/default/",
+            // chunkFilename: "[name].chunk.js"
         },
         externals: {
 
         },
         resolve: {
+            extensions: [".js", ".vue", ".json"],
             alias: {
-                "VUE": "vue/dist/vue.esm.js",
-                "vue": "vue/dist/vue.esm.js"
+                "vue$": "vue/dist/vue.common.js",
+                "@": resolve("src"),
             }
         },
         module: {
@@ -177,12 +217,34 @@ module.exports = function (env, argv) {
                     loader: "babel-loader",
 
                     options: {
-                        presets: ["env"]
+                        "presets": [
+                            "env"
+                        ],
+                        "plugins": [
+                            [
+                                "transform-runtime",
+                                {
+                                    "helpers": false,
+                                    "polyfill": false,
+                                    "regenerator": true,
+                                    "moduleName": "babel-runtime"
+                                }
+                            ],
+                            [
+                                "import",
+                                {
+                                    "libraryName": "iview",
+                                    "libraryDirectory": "src/components"
+                                }
+                            ],
+                            "lodash"
+                        ]
                     }
                 },
                 {
                     test: /\.vue$/,
-                    exclude: /node_modules/,
+                    // exclude: /node_modules/,
+                    // include:/src[\\/].*|(.*[\\/]iview)/,
                     loader: "vue-loader",
                 },
                 {
@@ -190,7 +252,7 @@ module.exports = function (env, argv) {
                     use: [{
                         loader: "url-loader",
                         options: {
-                            limit: 8192,
+                            limit: 1000,
                             name: "images/[name].[ext]",
                             // outputPath: "images/",
                             // publicPath: "themes/default/view/images"
