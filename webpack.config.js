@@ -196,7 +196,7 @@ module.exports = function (env, argv) {
             filename: "js/[name].js",
             path: dist,
             // publicPath: "/..<?php echo APP_HTTP_ROOT . $this->GetThemes(); ?>/",
-            publicPath: "/new_bbs/sr/themes/default/",
+            // publicPath: "",
             // chunkFilename: "[name].chunk.js"
         },
         externals: {

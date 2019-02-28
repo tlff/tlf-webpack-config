@@ -1,6 +1,6 @@
 {
   "name": "tlf-webpack-config",
-  "version": "3.0.0",
+  "version": "3.0.3",
   "description": "自己配置的webpack脚手架",
   "main": "./src/js/index.js",
   "scripts": {
